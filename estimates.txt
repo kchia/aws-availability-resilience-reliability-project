@@ -1,0 +1,19 @@
+Minimum RTO for a single AZ outage:
+Our RDS MySQL instance is configured to have multi-AZ failover support, so administrative intervention for a single AZ outage is not required since failover is automatically handled by Amazon RDS to ensure database operations can resume as quickly as possible. An RTO of 5 minutes for a single AZ outage would be reasonable.
+
+
+Minimum RTO for a single region outage:
+00:00 - Problem happens (0 minutes)
+00:05 - An amount of time passes before an alert triggers (5 minutes)
+00:06 - Alert triggers on-all staff (1 minute)
+00:16 - On-call staff may need to get out of bed, get to computer, log in, log onto VPN (10 minutes)
+00:26 - On-call staff starts diagnosing issue (10 minutes)
+00:31 - Root cause is discovered; remediation started (5 minutes)
+00:47 - Promote read replica in secondary region  (15 minutes)
+An RTO of one hour for a single AZ outage would be reasonable.
+
+Minimum RPO for a single AZ outage:
+An RPO of 5 minutes for a single AZ outage would be reasonable.
+
+Minimum RPO for a single region outage:
+Unlike an Amazon RDS Multi-AZ configuration, failover to a Read Replica is not an automated process. Therefore, a relatively longer RPO of one hour for a single region outage would be reasonable.

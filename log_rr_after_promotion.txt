@@ -1,0 +1,121 @@
+Last login: Fri Jun  5 09:44:22 on ttys000
+Error attempting to get plugin server address for RPC: Failed to dial the plugin server in 10s
+-bash: “”: command not found
+
+The default interactive shell is now zsh.
+To update your account to use zsh, please run `chsh -s /bin/zsh`.
+For more details, please visit https://support.apple.com/kb/HT208050.
+pyenv-virtualenv: activate ss
+(ss) houchia@Hous-MBP Desktop $ ssh -i ~/Desktop/hou-udacity-st 
+hou-udacity-standby.pem
+(ss) houchia@Hous-MBP Desktop $ ssh -i ~/Desktop/hou-udacity-standby.pem ec2-18-191-91-58.us-east-2.compute.amazonaws.com 
+The authenticity of host 'ec2-18-191-91-58.us-east-2.compute.amazonaws.com (18.191.91.58)' can't be established.
+ECDSA key fingerprint is SHA256:20dBOj5/SqaCNw3wnewKO/jekaJoERMyPYN7+tQNS8o.
+Are you sure you want to continue connecting (yes/no)? yes
+Warning: Permanently added 'ec2-18-191-91-58.us-east-2.compute.amazonaws.com,18.191.91.58' (ECDSA) to the list of known hosts.
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+@         WARNING: UNPROTECTED PRIVATE KEY FILE!          @
+@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+Permissions 0644 for '/Users/houchia/Desktop/hou-udacity-standby.pem' are too open.
+It is required that your private key files are NOT accessible by others.
+This private key will be ignored.
+Load key "/Users/houchia/Desktop/hou-udacity-standby.pem": bad permissions
+houchia@ec2-18-191-91-58.us-east-2.compute.amazonaws.com: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+(ss) houchia@Hous-MBP Desktop $ sudo chmod 700 ~/Desktop/hou-udacity-standby.pem 
+Password:
+(ss) houchia@Hous-MBP Desktop $ ssh -i ~/Desktop/hou-udacity-standby.pem ec2-18-191-91-58.us-east-2.compute.amazonaws.com 
+houchia@ec2-18-191-91-58.us-east-2.compute.amazonaws.com: Permission denied (publickey,gssapi-keyex,gssapi-with-mic).
+(ss) houchia@Hous-MBP Desktop $ ssh -i ~/Desktop/hou-udacity-standby.pem ec2-user@ec2-18-191-91-58.us-east-2.compute.amazonaws.com 
+
+       __|  __|_  )
+       _|  (     /   Amazon Linux 2 AMI
+      ___|\___|___|
+
+https://aws.amazon.com/amazon-linux-2/
+4 package(s) needed for security, out of 8 available
+Run "sudo yum update" to apply all updates.
+[ec2-user@ip-10-1-11-252 ~]$ mysql -h udacity.c53mjvw0mv5h.us-east-2.rds.amazonaws.com
+-bash: mysql: command not found
+[ec2-user@ip-10-1-11-252 ~]$ mysql -h udacity.c53mjvw0mv5h.us-east-2.rds.amazonaws.com -u admin -h
+-bash: mysql: command not found
+[ec2-user@ip-10-1-11-252 ~]$ sudo yum install mysql
+Loaded plugins: extras_suggestions, langpacks, priorities, update-motd
+amzn2-core                                                                                                                                                                           | 3.7 kB  00:00:00     
+Resolving Dependencies
+--> Running transaction check
+---> Package mariadb.x86_64 1:5.5.64-1.amzn2 will be installed
+--> Finished Dependency Resolution
+
+Dependencies Resolved
+
+============================================================================================================================================================================================================
+ Package                                       Arch                                         Version                                                  Repository                                        Size
+============================================================================================================================================================================================================
+Installing:
+ mariadb                                       x86_64                                       1:5.5.64-1.amzn2                                         amzn2-core                                       9.0 M
+
+Transaction Summary
+============================================================================================================================================================================================================
+Install  1 Package
+
+Total download size: 9.0 M
+Installed size: 49 M
+Is this ok [y/d/N]: y
+Downloading packages:
+mariadb-5.5.64-1.amzn2.x86_64.rpm                                                                                                                                                    | 9.0 MB  00:00:00     
+Running transaction check
+Running transaction test
+Transaction test succeeded
+Running transaction
+  Installing : 1:mariadb-5.5.64-1.amzn2.x86_64                                                                                                                                                          1/1 
+  Verifying  : 1:mariadb-5.5.64-1.amzn2.x86_64                                                                                                                                                          1/1 
+
+Installed:
+  mariadb.x86_64 1:5.5.64-1.amzn2                                                                                                                                                                           
+
+Complete!
+[ec2-user@ip-10-1-11-252 ~]$ mysql -h udacity.c53mjvw0mv5h.us-east-2.rds.amazonaws.com -u admin -h
+mysql: option '-h' requires an argument
+[ec2-user@ip-10-1-11-252 ~]$ mysql -h udacity.c53mjvw0mv5h.us-east-2.rds.amazonaws.com -u admin -p
+Enter password: 
+Welcome to the MariaDB monitor.  Commands end with ; or \g.
+Your MySQL connection id is 46
+Server version: 5.7.22 Source distribution
+
+Copyright (c) 2000, 2018, Oracle, MariaDB Corporation Ab and others.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+MySQL [(none)]> use udacity;
+Reading table information for completion of table and column names
+You can turn off this feature to get a quicker startup with -A
+
+Database changed
+MySQL [udacity]> select * from student;
++------------+------------+-------+
+| first_name | birth      | ssn   |
++------------+------------+-------+
+| Hou        | 0000-00-00 | -1111 |
++------------+------------+-------+
+1 row in set (0.00 sec)
+
+MySQL [udacity]> insert into student (first_name, birth, ssn) values ('Phillip', 12/06/1988, 222-111-1111);
+ERROR 1290 (HY000): The MySQL server is running with the --read-only option so it cannot execute this statement
+MySQL [udacity]> insert into student (first_name, birth, ssn) values ('Phillip', 12/06/1988, 222-111-1111);
+ERROR 2006 (HY000): MySQL server has gone away
+No connection. Trying to reconnect...
+Connection id:    11
+Current database: udacity
+
+Query OK, 1 row affected (0.02 sec)
+
+MySQL [udacity]> select * from student;
++------------+------------+-------+
+| first_name | birth      | ssn   |
++------------+------------+-------+
+| Hou        | 0000-00-00 | -1111 |
+| Phillip    | 0000-00-00 | -1000 |
++------------+------------+-------+
+2 rows in set (0.01 sec)
+
+MySQL [udacity]> 

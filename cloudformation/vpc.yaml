@@ -1,4 +1,4 @@
-Description:  Udacity - Design for Availability, Resilience, and Reliability
+Description: Udacity - Design for Availability, Resilience, and Reliability
 
 Parameters:
   VpcName:
@@ -33,15 +33,13 @@ Parameters:
 Metadata:
   AWS::CloudFormation::Interface:
     ParameterGroups:
-      -
-        Label:
-          default: "Information for the VPC"
+      - Label:
+          default: 'Information for the VPC'
         Parameters:
           - VpcName
           - VpcCIDR
-      -
-        Label:
-          default: "Information for the VPCs subnets. Subnet network ranges MUST fall within the VPC CIDR block above"
+      - Label:
+          default: 'Information for the VPCs subnets. Subnet network ranges MUST fall within the VPC CIDR block above'
         Parameters:
           - PublicSubnet1CIDR
           - PublicSubnet2CIDR
@@ -50,17 +48,17 @@ Metadata:
 
     ParameterLabels:
       VpcName:
-        default: "VPC Name"
+        default: 'Secondary'
       VpcCIDR:
-        default: "VPC CIDR block"
+        default: 'VPC CIDR block'
       PublicSubnet1CIDR:
-        default: "Public Subnet 1"
+        default: 'Public Subnet 1'
       PublicSubnet2CIDR:
-        default: "Public Subnet 2"
+        default: 'Public Subnet 2'
       PrivateSubnet1CIDR:
-        default: "Private Subnet 1"
+        default: 'Private Subnet 1'
       PrivateSubnet2CIDR:
-        default: "Private Subnet 2"
+        default: 'Private Subnet 2'
 
 Resources:
   VPC:
@@ -90,50 +88,50 @@ Resources:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [ 0, !GetAZs '' ]
+      AvailabilityZone: !Select [0, !GetAZs '']
       CidrBlock: !Ref PublicSubnet1CIDR
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
           Value: !Sub
             - ${VpcName} Public Subnet (${AZ1})
-            - { AZ1: !Select [ 0, !GetAZs  '' ] }
+            - { AZ1: !Select [0, !GetAZs ''] }
   PublicSubnet2:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [ 1, !GetAZs  '' ]
+      AvailabilityZone: !Select [1, !GetAZs '']
       CidrBlock: !Ref PublicSubnet2CIDR
       MapPublicIpOnLaunch: true
       Tags:
         - Key: Name
           Value: !Sub
             - ${VpcName} Public Subnet (${AZ2})
-            - { AZ2: !Select [ 1, !GetAZs  '' ] }
+            - { AZ2: !Select [1, !GetAZs ''] }
   PrivateSubnet1:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [ 0, !GetAZs  '' ]
+      AvailabilityZone: !Select [0, !GetAZs '']
       CidrBlock: !Ref PrivateSubnet1CIDR
       MapPublicIpOnLaunch: false
       Tags:
         - Key: Name
           Value: !Sub
             - ${VpcName} Private Subnet (${AZ1})
-            - { AZ1: !Select [ 0, !GetAZs  '' ] }
+            - { AZ1: !Select [0, !GetAZs ''] }
   PrivateSubnet2:
     Type: AWS::EC2::Subnet
     Properties:
       VpcId: !Ref VPC
-      AvailabilityZone: !Select [ 1, !GetAZs  '' ]
+      AvailabilityZone: !Select [1, !GetAZs '']
       CidrBlock: !Ref PrivateSubnet2CIDR
       MapPublicIpOnLaunch: false
       Tags:
         - Key: Name
           Value: !Sub
             - ${VpcName} Private Subnet (${AZ2})
-            - { AZ2: !Select [ 1, !GetAZs  '' ] }
+            - { AZ2: !Select [1, !GetAZs ''] }
 
   PublicRouteTable:
     Type: AWS::EC2::RouteTable
@@ -177,11 +175,11 @@ Resources:
       GroupDescription: Udacity ARR Project - Database Security Group
       GroupName: UDARR-Database
       SecurityGroupIngress:
-        -   Description: Application EC2 instances
-            FromPort: 3306
-            IpProtocol: tcp
-            SourceSecurityGroupId: !Ref ApplicationSecurityGroup
-            ToPort: 3306
+        - Description: Application EC2 instances
+          FromPort: 3306
+          IpProtocol: tcp
+          SourceSecurityGroupId: !Ref ApplicationSecurityGroup
+          ToPort: 3306
       VpcId: !Ref VPC
       Tags:
         - Key: Name
@@ -193,11 +191,11 @@ Resources:
       GroupDescription: Udacity ARR Project - Application Security Group
       GroupName: UDARR-Application
       SecurityGroupIngress:
-        -   Description: SSH from the Internet
-            FromPort: 22
-            IpProtocol: tcp
-            CidrIp: 0.0.0.0/0
-            ToPort: 22
+        - Description: SSH from the Internet
+          FromPort: 22
+          IpProtocol: tcp
+          CidrIp: 0.0.0.0/0
+          ToPort: 22
       VpcId: !Ref VPC
       Tags:
         - Key: Name
@@ -210,11 +208,11 @@ Outputs:
 
   PublicSubnets:
     Description: A list of the public subnets
-    Value: !Join [ ", ", [ !Ref PublicSubnet1, !Ref PublicSubnet2 ]]
+    Value: !Join [', ', [!Ref PublicSubnet1, !Ref PublicSubnet2]]
 
   PrivateSubnets:
     Description: A list of the private subnets
-    Value: !Join [ ", ", [ !Ref PrivateSubnet1, !Ref PrivateSubnet2 ]]
+    Value: !Join [', ', [!Ref PrivateSubnet1, !Ref PrivateSubnet2]]
 
   DatabaseSecurityGroup:
     Description: ID of the database security group
